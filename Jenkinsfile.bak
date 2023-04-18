@@ -1,0 +1,26 @@
+pipeline {
+
+  stages {
+
+    stage('build images') {
+       when {
+                branch 'main'
+            }
+       agent {
+                node {
+                    label 'dev-aws'
+                    customWorkspace '/home/ubuntu/jenkins/multi-branch/'
+                }
+            }
+
+       steps {
+
+        sh 'cd /home/ubuntu/jenkins/multi-branch && docker build -t nginx:v1 .'
+
+      }
+
+    }
+
+  }
+
+}
