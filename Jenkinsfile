@@ -1,35 +1,36 @@
 pipeline {
-   agent none
-   stages {
-      stage('Build Image') {
-	     when {
-             branch 'main'
+    agent any
+
+    environment {
+        SSH_USER = 'ngo1'
+        SSH_PASSWORD = 'ngo'
+        SSH_HOST = 'localhost'
+        SSH_PORT = '22'
+        DEPLOY_DIR = '/var/www/html'
+    }
+
+    stages {
+        stage('Clone code') {
+            steps {
+                git 'https://github.com/trxngxx/test.git'
             }
-         agent {
-             node {
-                  label 'test'
-                  customWorkspace '/var/jenkins_home/'
+        }
+
+        stage('Install dependencies') {
+            steps {
+                sh 'sudo apt-get update'
+                sh 'sudo apt-get install -y nginx'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sshagent(credentials: ['ssh-credentials-id']) {
+                    sh "sshpass -p ${SSH_PASSWORD} ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} -p ${SSH_PORT} 'sudo rm -rf ${DEPLOY_DIR}/*'"
+                    sh "sshpass -p ${SSH_PASSWORD} scp -o StrictHostKeyChecking=no -r ${WORKSPACE}/* ${SSH_USER}@${SSH_HOST}:${DEPLOY_DIR}/"
+                    sh "sshpass -p ${SSH_PASSWORD} ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} -p ${SSH_PORT} 'sudo systemctl restart nginx'"
                 }
             }
-         steps {
-               sh "cd /var/jenkins_home/repo1 && docker build nginx_v1 ."
-           }
-       }
-      stage('Deploy Image') {
-        when {
-             branch 'main'
-            }
-        agent {
-              node {
-                  label 'test'
-                  customWorkspace '/var/jenkins_home/'
-                }
-            }
-        steps {
-              sh """
-              echo "Deploying Code"
-              """
-          }
-      }
-   }
+        }
+    }
 }
