@@ -8,11 +8,11 @@ pipeline {
          agent {
              node {
                   label 'test'
-                  customWorkspace '/home/ubuntu/jenkins/multi-branch/'
+                  customWorkspace '/var/jenkins_home/'
                 }
             }
          steps {
-               sh "cd /home/ubuntu/jenkins/multi-branch/repo1 && docker build nginx_v1 ."
+               sh "cd /var/jenkins_home/repo1 && docker build nginx_v1 ."
            }
        }
       stage('Deploy Image') {
@@ -22,7 +22,7 @@ pipeline {
         agent {
               node {
                   label 'test'
-                  customWorkspace '/home/ubuntu/jenkins/multi-branch/'
+                  customWorkspace '/var/jenkins_home/'
                 }
             }
         steps {
