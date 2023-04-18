@@ -7,7 +7,7 @@ pipeline {
             }
          agent {
              node {
-                  label 'dev-aws'
+                  label 'test'
                   customWorkspace '/home/ubuntu/jenkins/multi-branch/'
                 }
             }
@@ -21,7 +21,7 @@ pipeline {
             }
         agent {
               node {
-                  label 'dev-aws'
+                  label 'test'
                   customWorkspace '/home/ubuntu/jenkins/multi-branch/'
                 }
             }
