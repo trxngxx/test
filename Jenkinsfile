@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        SERVER = 'apache'
-        DEPLOY_DIR = '/var/www/html'
-    }
-
     stages {
         stage('Clone code') {
             steps {
