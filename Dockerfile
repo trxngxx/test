@@ -1,4 +1,7 @@
-FROM nginx:alpine
+FROM ubuntu:latest
 
-COPY default.conf /etc/nginx/conf.d/
-COPY index.html /usr/share/nginx/html/
+RUN apt-get update && apt-get install -y apache2
+
+COPY . /var/www/html
+
+CMD ["apache2ctl", "-D", "FOREGROUND"]
