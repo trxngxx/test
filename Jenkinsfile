@@ -1,5 +1,12 @@
 pipeline {
     agent none
+        environment {
+        SSH_USER = 'ngo1'
+        SSH_PASSWORD = 'ngo'
+        SSH_HOST = '192.168.81.136'
+        SSH_PORT = '22'
+        DEPLOY_DIR = '/var/www/html'
+    }
     stages {
         stage('Clone code') {
               when {
