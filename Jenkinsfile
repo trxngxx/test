@@ -1,7 +1,7 @@
 pipeline {
     agent any
         environment {
-        SERVER = 'apache'
+        SERVER = 'ngo1-virtual-machine'
         DEPLOY_DIR = '/var/www/html'
     }
     
