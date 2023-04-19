@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     environment {
         SSH_USER = 'ngo1'
@@ -11,12 +11,18 @@ pipeline {
 
     stages {
         stage('Clone code') {
+              when {
+              branch 'main'
+             }
             steps {
                 git 'https://github.com/trxngxx/test.git'
             }
         }
 
         stage('Install dependencies') {
+              when {
+              branch 'main'
+             }
             steps {
                 sh 'sudo apt-get update'
                 sh 'sudo apt-get install -y nginx'
@@ -24,6 +30,9 @@ pipeline {
         }
 
         stage('Deploy') {
+              when {
+              branch 'main'
+             }
             steps {
                 sshagent(credentials: ['ssh-credentials-id']) {
                     sh "sshpass -p ${SSH_PASSWORD} ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SSH_HOST} -p ${SSH_PORT} 'sudo rm -rf ${DEPLOY_DIR}/*'"
