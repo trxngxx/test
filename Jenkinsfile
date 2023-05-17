@@ -6,7 +6,7 @@ pipeline {
     }
     
     stages {
-        stage('Clone code') {
+        stage('Clone code ') {
             steps {
                 git 'https://github.com/trxngxx/test'
             }
