@@ -21,9 +21,9 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                sh "sudo rm -rf ${DEPLOY_DIR}/*"
-                sh "sudo cp -r ${WORKSPACE}/* ${DEPLOY_DIR}/"
-                sh "sudo systemctl restart ${SERVER}"
+                sh "sudo rm -rf /var/www/html/*"
+                sh "sudo cp -r /var/www/html/* /var/www/html/"
+                sh "sudo systemctl restart ngo1-virtual-machine/var/www/html"
             }
         }
     }
